@@ -1,9 +1,10 @@
-package todoIntegrationTest;
+package com.example.todolist.todoIntegrationTest;
 
 import com.example.todolist.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -27,4 +28,17 @@ public class TodoIntegrationTest {
                 .andExpect(jsonPath("$[1].text").value("second to do item"));
 
     }
+
+    @Test
+    void should_create_todo_when_addTodo_given_todo_information() throws Exception {
+        String todo = "{\n" +
+                "    \"text\": \"test todo\"\n" +
+                "}";
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/todos")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(todo))
+                .andExpect(status().isCreated());
+    }
+
 }
