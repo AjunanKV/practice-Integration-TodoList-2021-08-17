@@ -29,7 +29,14 @@ public class TodoService {
     }
 
     private Object updateTodoInformation(Todo todo, Todo todoRequest) {
-        todo.setDone(todoRequest.isDone());
+        if(todo.isDone() != todoRequest.isDone()){
+            todo.setDone(todoRequest.isDone());
+        }
+        if(todo.getText()!=null)
+        {
+            todo.setText(todoRequest.getText());
+        }
+
         return todo;
     }
 
