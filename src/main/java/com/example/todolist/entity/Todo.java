@@ -7,11 +7,11 @@ import javax.persistence.Id;
 
 @Entity
 public class Todo {
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private Integer id;
-private String text;
-private boolean done;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String text;
+    private boolean done;
 
     public Todo() {
     }
