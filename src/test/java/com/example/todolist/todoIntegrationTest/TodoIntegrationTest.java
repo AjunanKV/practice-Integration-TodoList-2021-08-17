@@ -1,6 +1,8 @@
 package com.example.todolist.todoIntegrationTest;
 
+import com.example.todolist.entity.Todo;
 import com.example.todolist.repository.TodoRepository;
+import com.example.todolist.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +21,8 @@ public class TodoIntegrationTest {
     private MockMvc mockMvc;
     @Autowired
     private TodoRepository todoRepository;
+    @Autowired
+    private TodoService todoService;
 
     @Test
     void should_return_all_todo_when_getAllTodos() throws Exception {
@@ -40,5 +44,17 @@ public class TodoIntegrationTest {
                 .content(todo))
                 .andExpect(status().isCreated());
     }
+    @Test
+    void should_remove_todo_when_removeTodo_given_todo_id()throws Exception{
+        final Todo todo = new Todo(99, "dummy test todo", false);
+        final Todo savedTodo = todoService.addTodo(todo);
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/todos/{id}", savedTodo.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+
 
 }
