@@ -55,6 +55,24 @@ public class TodoIntegrationTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void should_update_todo_when_updateTodo_given_todo_information() throws Exception {
+        final Todo todo = new Todo(99, "test todo", false);
+        final Todo savedTodo = todoService.addTodo(todo);
 
+        String updateTodo = "{\n" +
+                "    \"text\": \"dummy test 99\",\n" +
+                "    \"done\": true\n" +
+                "}";
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/todos/{id}", savedTodo.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(updateTodo))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.done").value(true))
+                .andExpect(jsonPath("$.text").value("dummy test 99"));
+
+        todoService.removeTodo(savedTodo.getId());
+    }
 
 }
