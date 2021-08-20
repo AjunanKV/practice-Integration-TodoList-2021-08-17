@@ -29,10 +29,10 @@ public class TodoService {
     }
 
     private Object updateTodoInformation(Todo todo, Todo todoRequest) {
-        if(todo.isDone() != todoRequest.isDone()){
+        if(!todo.isDone() == todoRequest.isDone()){
             todo.setDone(todoRequest.isDone());
         }
-        if(todo.getText()!=null)
+        if(todoRequest.getText()!=null && todo.getText()!=todoRequest.getText()) // TODO: todo compare request
         {
             todo.setText(todoRequest.getText());
         }
